@@ -1,3 +1,4 @@
+{% load user_filter %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,11 @@
         <ul class="flex space-x-4">
             {% if request.user.is_authenticated %}
                 <li>
-                    <a href="{% url 'core:dashboard' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">Dashboard</a>
+                    {% if request.user|has_group:"Managers" %}
+                    <a href="{% url 'core:property_manager_dashboard' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">Dashboard</a>
+                    {% else %}
+                    <a href="{% url 'core:tenant_dashboard' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">Dashboard</a>
+                    {% endif %}
                 </li>
                 <li>
                     <a href="{% url 'core:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Logout</a>
@@ -24,7 +29,7 @@
             {% else %}
             
             <li>
-                <a href="{% url 'core:register' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
+                <a href="{% url 'core:tenant_register' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
             </li>
             <li>
                 <a href="{% url 'core:login' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Login</a>

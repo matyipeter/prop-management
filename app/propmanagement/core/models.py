@@ -15,7 +15,7 @@ class Tenant(models.Model):
         return self.user.username
 
 
-class Property_Manager(models.Model):
+class PropertyManager(models.Model):
     user = models.OneToOneField(User,verbose_name='user' ,on_delete=models.CASCADE)
     phone_number = models.IntegerField(blank=True, default=0)
 
@@ -28,7 +28,7 @@ class Property_Manager(models.Model):
     
 
 class Property(models.Model):
-    manager = models.ForeignKey(Property_Manager, on_delete=models.CASCADE, related_name='properties')
+    manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE, related_name='properties')
     tenant = models.ForeignKey(Tenant, on_delete=models.SET_NULL, related_name='properties', blank=True, null=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
