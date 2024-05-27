@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Dashboard</title>
+    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <h1 class="text-white text-2xl font-bold">Property Management</h1>
+                <div>
+                    <a href="#" class="text-white hover:underline">Profile</a>
+                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-10">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-3xl font-bold mb-4">Welcome, {{ tenant.name }}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Tenant Details</h3>
+                    <p><strong>Email:</strong> {{ tenant.email }}</p>
+                    <p><strong>Phone Number:</strong> {{ tenant.phone_number }}</p>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Property Information</h3>
+                    {% for property in tenant.properties.all %}
+                    <div class="mb-4">
+                        <p><strong>Address:</strong> {{ property.address }}</p>
+                        <p><strong>City:</strong> {{ property.city }}</p>
+                        <p><strong>State:</strong> {{ property.state }}</p>
+                        <p><strong>ZIP Code:</strong> {{ property.zip_code }}</p>
+                        <hr class="my-2">
+                    </div>
+                    {% empty %}
+                    <p>No properties rented.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

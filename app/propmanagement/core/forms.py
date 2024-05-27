@@ -17,3 +17,9 @@ class TenantForm(forms.ModelForm):
     class Meta():
         model = Tenant
         fields = ['phone_number']
+
+
+class ManagerForm(forms.ModelForm):
+    class Meta():
+        model = Property_Manager
+        fields = ['phone_number']
