@@ -57,6 +57,15 @@ def dashboard(request):
     return render(request, 'core/tenant_dashboard.html', {'tenant': tenant})
 
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('core:index')
+
+
+
+# PROPETY MANAGER VIEWS, ADD, UPDATE, DELETE
+
 class PropertyListView(LoginRequiredMixin, ListView):
     model = Property
     template_name = 'core/property_manager_dashboard.html'
@@ -87,14 +96,6 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'core/property_confirm_delete.html'
     success_url = reverse_lazy('core:property_manager_dashboard')
 
+#################################################################
 
 
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect('core:index')
-
-
-class AddProperty(CreateView):
-    model = Property
-    fields = '__all__'
