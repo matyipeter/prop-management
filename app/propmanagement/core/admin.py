@@ -6,7 +6,7 @@ admin.site.register(PropertyManager)
 admin.site.register(MaintananceRequests)
 
 class TenantAdmin(admin.ModelAdmin):
-    list_display = ('phone_number', 'user')
+    list_display = ("user", "phone_number")
 
 admin.site.register(Tenant, TenantAdmin)
 

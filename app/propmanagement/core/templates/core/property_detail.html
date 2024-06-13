@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+{% load user_filter %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <h1 class="text-white text-2xl font-bold">Property Management</h1>
+                <div>
+                    {% if request.user|has_group:"Managers" %}
+                    <a href="{% url 'core:property_manager_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    {% else %}
+                    <a href="{% url 'core:tenant_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    {% endif %}
+                    
+                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-10">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-3xl font-bold mb-4">{{ property.name }}</div>
+                <div class="text-3xl font-bold mb-4">Tenant</div>
+                <div class="text-gray-700 mb-4">{{ property.address }} {{ property.state }}</div>
+                <div class="text-gray-700 mb-4">{{ property.tenant.user.first_name }} {{ property.tenant.user.last_name }}</div>
+            </div>
+            <div class="flex mb-6">
+                <a href="{% url 'core:edit_property' property.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                <a href="{% url 'core:delete_property' property.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">Delete</a>
+            </div>
+            <div class="mt-12">
+                <h1 class="text-3xl font-bold mb-4">Maintanace Requests</h1>
+                {% for req in property.maintanance_requests.all  %}
+                    {% if req.status == False %}
+                        <div class="bg-yellow-100 shadow-md rounded-lg p-6 mb-2">
+                            <h2 class="text-2xl font-bold mb-4">{{ req.typ }}</h2>
+                            <p class="text-gray-700 mb-4">{{ req.description }}</p>
+                        </div>
+                    {% endif %}
+                    {% empty %}
+                    <p>No maintanance requests.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

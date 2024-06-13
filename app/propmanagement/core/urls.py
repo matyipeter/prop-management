@@ -13,7 +13,10 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("tenant-dashboard/", views.dashboard, name="tenant_dashboard"),
     path('property-manager-dashboard/', views.PropertyListView.as_view(), name='property_manager_dashboard'),
+    path('property/<int:pk>/', views.PropertyDetailView.as_view(), name='property_detail'),
     path('property/add/', views.PropertyCreateView.as_view(), name='add_property'),
     path('property/edit/<int:pk>/', views.PropertyUpdateView.as_view(), name='edit_property'),
     path('property/delete/<int:pk>/', views.PropertyDeleteView.as_view(), name='delete_property'),
+    path('profile/<int:pk>/', views.TenantProfileView.as_view(), name='tenant_profile'),
+    path('prfile/<int:pk>', views.PropertyManagerProfileView.as_view(), name='property_manager_profile'),
 ]

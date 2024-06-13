@@ -1,0 +1,45 @@
+<!-- property_manager_profile.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ property_manager.user.username }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <h1 class="text-white text-2xl font-bold">Property Management</h1>
+                <div>
+                    <a href="{% url 'core:property_manager_profile' property_manager.user.pk %}" class="text-white hover:underline">Profile</a>
+                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-10">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-3xl font-bold mb-4">{{ property_manager.user.username }}'s Profile</h2>
+            <p class="text-gray-700 text-lg mb-4"><strong>Email:</strong> {{ property_manager.user.email }}</p>
+            <p class="text-gray-700 mb-4"><strong>Phone Number:</strong> {{ property_manager.phone_number }}</p>
+            <p class="text-gray-700 mb-4"><strong>Address:</strong> {{ property_manager.address }}</p>
+            <h3 class="text-2xl font-bold mb-4">Managed Properties</h3>
+            <ul class="list-disc list-inside">
+                {% for property in property_manager.properties.all %}
+                    <li class="text-gray-700 mb-2">
+                        <a href="{% url 'core:property_detail' property.id %}" class="text-blue-500 hover:underline">{{ property.name }}</a>
+                    </li>
+                {% empty %}
+                    <li class="text-gray-700 mb-2">No properties managed.</li>
+                {% endfor %}
+            </ul>
+            <div class="flex mt-4">
+                <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

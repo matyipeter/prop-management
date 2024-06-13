@@ -1,7 +1,8 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from core.models import Property, PropertyManager, Tenant
-from django.views.generic import CreateView, View, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, View, ListView, UpdateView, DeleteView, DetailView
 from .forms import TenantRegistrationForm, PropertyManagerRegistrationForm, PropertyForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -73,6 +74,15 @@ class PropertyListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Property.objects.filter(manager=self.request.user.propertymanager)
+    
+
+class PropertyDetailView(LoginRequiredMixin, DetailView):
+    model = Property
+    template_name = 'core/property_detail.html'
+    context_object_name = 'property'
+
+    def get_queryset(self):
+        return Property.objects.filter(manager=self.request.user.propertymanager)
 
 
 class PropertyCreateView(LoginRequiredMixin, CreateView):
@@ -97,5 +107,22 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('core:property_manager_dashboard')
 
 #################################################################
+
+
+class TenantProfileView(LoginRequiredMixin, ListView):
+    model = Tenant
+    template_name = 'core/tenant_profile_details.html'
+    context_object_name = 'tenant'
+
+    def get_queryset(self):
+        return Tenant.objects.get(user=self.request.user)
+    
+class PropertyManagerProfileView(LoginRequiredMixin, ListView):
+    model = PropertyManager
+    template_name = 'core/property_manager_profile.html'
+    context_object_name = 'property_manager'
+
+    def get_queryset(self):
+        return PropertyManager.objects.get(user=self.request.user)
 
 

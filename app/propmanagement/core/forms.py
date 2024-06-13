@@ -99,13 +99,29 @@ class PropertyManagerRegistrationForm(forms.ModelForm):
     
 
 class PropertyForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'shadow appearance-none border bg-gray-100 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' }))
-    address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'shadow appearance-none border bg-gray-100 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}))
-    city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'shadow appearance-none border bg-gray-100 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}))
-    state = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'shadow appearance-none border bg-gray-100 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}))
     class Meta:
         model = Property
         fields = ['name', 'address', 'city', 'state']
+
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'placeholder': 'Property Name'
+            }),
+            'address': forms.Textarea(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'placeholder': 'Address',
+                'rows': 3
+            }),
+            'city': forms.TextInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'placeholder': 'Price'
+            }),
+            'state': forms.TextInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'placeholder': 'state'
+            }),
+        }
 
 
 class TenantForm(forms.ModelForm):
