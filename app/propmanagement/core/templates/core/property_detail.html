@@ -1,30 +1,8 @@
-<!DOCTYPE html>
-{% load static %}
-{% load user_filter %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Details</title>
-    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
-</head>
-<body class="bg-gray-100">
-    <nav class="bg-green-500 p-4">
-        <div class="container mx-auto">
-            <div class="flex justify-between items-center">
-                <h1 class="text-white text-2xl font-bold">Property Management</h1>
-                <div>
-                    {% if request.user|has_group:"Managers" %}
-                    <a href="{% url 'core:property_manager_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
-                    {% else %}
-                    <a href="{% url 'core:tenant_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
-                    {% endif %}
-                    
-                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+{% extends 'core/base.html' %}
+
+{% block title %}Property Detail{% endblock title %}
+
+{% block content %}
     <div class="container mx-auto mt-10">
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="grid grid-cols-2 gap-4">
@@ -46,12 +24,11 @@
                             <p class="text-gray-700 mb-4">{{ req.description }}</p>
                         </div>
                     {% endif %}
-                    {% empty %}
+                {% empty %}
                     <p>No maintanance requests.</p>
                 {% endfor %}
             </div>
         </div>
         
     </div>
-</body>
-</html>
+{% endblock content %}

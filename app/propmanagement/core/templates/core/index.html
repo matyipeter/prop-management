@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
 </head>
 <body class="bg-gray-100">
-    <header class="bg-green-500 text-white text-center py-4">
+    <header {% if request.user|has_group:"Managers" %}class="bg-blue-500 text-white text-center py-4" {% else %}class="bg-green-500 text-white text-center py-4"{% endif %}>
         <a class="text-3xl font-bold" href="{% url 'core:index' %}"><h1>Welcome to Property Management</h1></a>
         <h2>{{request.user.username}}</h2>
     </header>

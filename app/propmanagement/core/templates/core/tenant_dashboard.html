@@ -1,29 +1,9 @@
-{% load static %}
-{% load user_filter %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenant Dashboard</title>
-    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
-</head>
-<body class="bg-gray-100">
-    <nav class="bg-green-500 p-4">
-        <div class="container mx-auto">
-            <div class="flex justify-between items-center">
-                <a class="text-white text-2xl font-bold" href="{% url 'core:index' %}">Property Management</a>
-                <div>
-                    {% if request.user|has_group:"Managers" %}
-                    <a href="{% url 'core:property_manager_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
-                    {% else %}
-                    <a href="{% url 'core:tenant_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
-                    {% endif %}
-                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+{% extends "core/base.html" %}
+
+{% block title %}Tenant Dashboard{% endblock title %}
+
+{% block content %}
+
     <div class="container mx-auto mt-10">
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-3xl font-bold mb-4">Welcome, {{ tenant.name }}</h2>
@@ -57,7 +37,7 @@
                                 <p><strong>Description:</strong> {{ req.description }}</p>
                                 <hr class="my-2">
                             </div>
-                            {% empty %}
+                        {% empty %}
                             <p>No maintanance requests.</p>
                         {% endfor %}
                     
@@ -66,5 +46,7 @@
             </div>
         </div>
     </div>
+
+{% endblock content %}
 </body>
 </html>

@@ -1,0 +1,31 @@
+{% load static %}
+{% load user_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+    {% if request.user|has_group:"Managers" %}<nav class="bg-blue-500 p-4">{% else %}<nav class="bg-green-500 p-4">{% endif %}
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <a class="text-white text-2xl font-bold" href="{% url 'core:index' %}">Property Management</a>
+                <div>
+                    {% if request.user|has_group:"Managers" %}
+                    <a href="{% url 'core:property_manager_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    {% else %}
+                    <a href="{% url 'core:tenant_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    {% endif %}
+                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

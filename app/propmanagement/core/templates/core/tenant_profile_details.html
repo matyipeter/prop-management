@@ -1,25 +1,10 @@
-<!-- tenant_profile.html -->
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ tenant.user.username }}'s Profile</title>
-    <link rel="stylesheet" href="{% static 'core/css/output.css' %}">
-</head>
-<body class="bg-gray-100">
-    <nav class="bg-green-500 p-4">
-        <div class="container mx-auto">
-            <div class="flex justify-between items-center">
-                <h1 class="text-white text-2xl font-bold">Property Management</h1>
-                <div>
-                    <a href="{% url 'core:tenant_profile' tenant.user.pk %}" class="text-white hover:underline">Profile</a>
-                    <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+{% extends "core/base.html" %}
+
+{% block title %} Tenant Profile {% endblock title %}
+
+{% block content %}
+
     <div class="container mx-auto mt-10">
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-3xl font-bold mb-4">{{ tenant.user.username }}'s Profile</h2>
@@ -32,6 +17,8 @@
             </div>
         </div>
     </div>
+
+{% endblock content %}
 </body>
 </html>
 
