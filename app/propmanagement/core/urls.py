@@ -17,7 +17,7 @@ urlpatterns = [
     path('property/add/', views.PropertyCreateView.as_view(), name='add_property'),
     path('property/edit/<int:pk>/', views.PropertyUpdateView.as_view(), name='edit_property'),
     path('property/delete/<int:pk>/', views.PropertyDeleteView.as_view(), name='delete_property'),
-    path('profile/<int:pk>/', views.TenantProfileView.as_view(), name='tenant_profile'),
-    path('profile/<int:pk>', views.PropertyManagerProfileView.as_view(), name='property_manager_profile'),
+    path('profile/<int:pk>/', views.profile, name='profile'),
+    #path('profile/<int:pk>', views.PropertyManagerProfileView.as_view(), name='property_manager_profile'),
     path('maintanance-request/add/', views.MaintananceRequestCreateView.as_view(), name='add_maintanance_request'),
 ]

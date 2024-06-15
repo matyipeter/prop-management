@@ -1,5 +1,5 @@
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from core.models import Property, PropertyManager, Tenant, MaintananceRequests
 from django.views.generic import CreateView, View, ListView, UpdateView, DeleteView, DetailView
@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
 # Create your views here.
 
 def index(request):
@@ -107,24 +108,19 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('core:property_manager_dashboard')
 
 #################################################################
-
-
-class TenantProfileView(LoginRequiredMixin, ListView):
-    model = Tenant
-    template_name = 'core/tenant_profile_details.html'
-    context_object_name = 'tenant'
-
-    def get_queryset(self):
-        return Tenant.objects.get(user=self.request.user)
-    
-class PropertyManagerProfileView(LoginRequiredMixin, ListView):
-    model = PropertyManager
-    template_name = 'core/property_manager_profile.html'
-    context_object_name = 'property_manager'
-
-    def get_queryset(self):
-        return PropertyManager.objects.get(user=self.request.user)
-
+@login_required
+def profile(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if user.groups.filter(name='Managers').exists():
+        u = PropertyManager.objects.get(user=user)
+        template = 'core/property_manager_profile.html'
+    elif user.groups.filter(name='Tenants').exists():
+        u = Tenant.objects.get(user=user)
+        template = 'core/tenant_profile_details.html'
+    else:
+        return redirect('core:login')
+    return render(request, template, {'u': u})
+        
 #################################################################
 
 class MaintananceRequestCreateView(LoginRequiredMixin, CreateView):

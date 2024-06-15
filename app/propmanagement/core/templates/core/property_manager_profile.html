@@ -6,13 +6,13 @@
 {% block content %}
     <div class="container mx-auto mt-10">
         <div class="bg-white shadow-md rounded-lg p-6">
-            <h2 class="text-3xl font-bold mb-4">{{ property_manager.user.username }}'s Profile</h2>
-            <p class="text-gray-700 text-lg mb-4"><strong>Email:</strong> {{ property_manager.user.email }}</p>
-            <p class="text-gray-700 mb-4"><strong>Phone Number:</strong> {{ property_manager.phone_number }}</p>
-            <p class="text-gray-700 mb-4"><strong>Address:</strong> {{ property_manager.address }}</p>
+            <h2 class="text-3xl font-bold mb-4">{{ u.user.username }}'s Profile</h2>
+            <p class="text-gray-700 text-lg mb-4"><strong>Email:</strong> {{ u.user.email }}</p>
+            <p class="text-gray-700 mb-4"><strong>Phone Number:</strong> {{ u.phone_number }}</p>
+            <p class="text-gray-700 mb-4"><strong>Address:</strong> {{ u.address }}</p>
             <h3 class="text-2xl font-bold mb-4">Managed Properties</h3>
             <ul class="list-disc list-inside">
-                {% for property in property_manager.properties.all %}
+                {% for property in u.properties.all %}
                     <li class="text-gray-700 mb-2">
                         <a href="{% url 'core:property_detail' property.id %}" class="text-blue-500 hover:underline">{{ property.name }}</a>
                     </li>

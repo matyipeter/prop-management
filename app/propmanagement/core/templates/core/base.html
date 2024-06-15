@@ -15,9 +15,9 @@
                 <a class="text-white text-2xl font-bold" href="{% url 'core:index' %}">Property Management</a>
                 <div>
                     {% if request.user|has_group:"Managers" %}
-                    <a href="{% url 'core:property_manager_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    <a href="{% url 'core:profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
                     {% else %}
-                    <a href="{% url 'core:tenant_profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
+                    <a href="{% url 'core:profile' request.user.pk %}" class="text-white hover:underline">Profile</a>
                     {% endif %}
                     <a href="{% url 'core:logout' %}" class="text-white ml-4 hover:underline">Logout</a>
                 </div>

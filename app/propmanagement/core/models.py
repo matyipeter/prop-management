@@ -13,7 +13,6 @@ class Tenant(models.Model):
     date_of_birth = models.DateField(default="2000-01-01", blank=False)
     rent = models.IntegerField(default=0)
     payment_status = models.BooleanField(default=False)
-    gender = models.Choices
 
     # TIMESTAMPS
     created_at = models.DateTimeField(default=timezone.now)
@@ -37,14 +36,18 @@ class PropertyManager(models.Model):
 
 class Property(models.Model):
     manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE, related_name='properties')
-    tenant = models.ForeignKey(Tenant, on_delete=models.SET_NULL, related_name='properties', blank=True, null=True)
+    tenant = models.ManyToManyField(Tenant, related_name='properties', blank=True, null=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=50, default="00000")
 
     def __str__(self):
         return self.name
+    
+    def no_of_tenants(self):
+        return self.tenant.count()
 
 
 class MaintananceRequests(models.Model):
