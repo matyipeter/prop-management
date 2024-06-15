@@ -1,4 +1,4 @@
-from .models import Tenant, Property, PropertyManager
+from .models import Tenant, Property, PropertyManager, MaintananceRequests
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -97,6 +97,31 @@ class PropertyManagerRegistrationForm(forms.ModelForm):
             PropertyManager.objects.create(user=user)
         return user
     
+
+class MaintananceRequestForm(forms.ModelForm):
+    class Meta:
+        model = MaintananceRequests
+        fields = ['prop', 'typ','description']
+
+        widgets = {
+            'prop': forms.Select(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            }),
+            'typ': forms.TextInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'placeholder': 'Description',
+                'rows': 3
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(MaintananceRequestForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['prop'].queryset = Property.objects.filter(tenant=user.tenant)
 
 class PropertyForm(forms.ModelForm):
     class Meta:

@@ -1,9 +1,9 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from core.models import Property, PropertyManager, Tenant
+from core.models import Property, PropertyManager, Tenant, MaintananceRequests
 from django.views.generic import CreateView, View, ListView, UpdateView, DeleteView, DetailView
-from .forms import TenantRegistrationForm, PropertyManagerRegistrationForm, PropertyForm
+from .forms import TenantRegistrationForm, PropertyManagerRegistrationForm, PropertyForm, MaintananceRequestForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -125,4 +125,19 @@ class PropertyManagerProfileView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return PropertyManager.objects.get(user=self.request.user)
 
+#################################################################
 
+class MaintananceRequestCreateView(LoginRequiredMixin, CreateView):
+    model = MaintananceRequests
+    form_class = MaintananceRequestForm
+    template_name = 'core/m_request_form.html'
+    success_url = reverse_lazy('core:tenant_dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.tenant = self.request.user.tenant
+        return super().form_valid(form)

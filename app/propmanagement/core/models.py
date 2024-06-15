@@ -49,9 +49,12 @@ class Property(models.Model):
 
 class MaintananceRequests(models.Model):
     prop = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='maintanance_requests')
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name='maintanance_requests', blank=True, null=True)
     typ = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
     status = models.BooleanField(default=False)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
-        return self.typ
+        return f"Request by {self.tenant.user.username} for {self.prop.name}"

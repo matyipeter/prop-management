@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block title %}Maintanance Request{% endblock title %}
+
+{% block content %}
+    <div class="container mx-auto mt-10">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-3xl font-bold mb-4">Create Maintenance Request</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+</body>
+</html>
