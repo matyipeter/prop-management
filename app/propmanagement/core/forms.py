@@ -150,12 +150,49 @@ class PropertyForm(forms.ModelForm):
 
 
 class TenantForm(forms.ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+    }))
+
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+    }))
     class Meta():
         model = Tenant
-        fields = ['phone_number']
+        fields = ['phone_number', 'date_of_birth']
 
+        widgets = {
+            'phone_number': forms.TextInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            }),
+            'date_of_birth': forms.DateInput(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            }),
+        }
 
-class ManagerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(TenantForm, self).__init__(*args, **kwargs)
+        if self.user:
+            self.fields['email'].initial = self.user.email
+            self.fields['first_name'].initial = self.user.first_name
+            self.fields['last_name'].initial = self.user.last_name
+
+    def save(self, commit=True):
+        tenant_instance = super(TenantForm, self).save(commit=False)
+        if self.user:
+            self.user.email = self.cleaned_data['email']
+            self.user.first_name = self.cleaned_data['first_name']
+            self.user.last_name = self.cleaned_data['last_name']
+            if commit:
+                self.user.save()
+                tenant_instance.save()
+        return tenant_instance
+
+class PropertyManagerForm(forms.ModelForm):
     class Meta():
         model = PropertyManager
         fields = ['phone_number']

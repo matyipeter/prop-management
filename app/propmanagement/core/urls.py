@@ -8,6 +8,7 @@ urlpatterns = [
 
     path("", views.index, name="index"),
     path("register/tenant", views.TenantRegister.as_view(), name="tenant_register"),
+    path("tenant/update/<int:pk>/", views.TenantUpdateView.as_view(), name="tenant_update"),
     path("register/property_manager", views.PropertyManagerRegister.as_view(), name="property_manager_register"),
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", views.logout_view, name="logout"),

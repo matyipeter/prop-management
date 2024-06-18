@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from core.models import Property, PropertyManager, Tenant, MaintananceRequests
 from django.views.generic import CreateView, View, ListView, UpdateView, DeleteView, DetailView
-from .forms import TenantRegistrationForm, PropertyManagerRegistrationForm, PropertyForm, MaintananceRequestForm
+from .forms import TenantRegistrationForm, PropertyManagerRegistrationForm, PropertyForm, MaintananceRequestForm, TenantForm, PropertyManagerForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -39,6 +39,21 @@ class TenantRegister(View):
             user.groups.add(tenant_group)
             return redirect('core:login')
         
+class TenantUpdateView(LoginRequiredMixin, UpdateView):
+    model = Tenant
+    form_class = TenantForm
+    template_name = 'registration/tenant_details.html'
+    success_url = reverse_lazy('core:tenant_dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_object(self):
+        return self.request.user.tenant
+
+
 class PropertyManagerRegister(View):
     def get(self, request):
         form = PropertyManagerRegistrationForm()
