@@ -67,6 +67,19 @@ class PropertyManagerRegister(View):
             user.groups.add(property_manager_group)
             return redirect('core:login')
 
+class PropertyManagerUpdateView(LoginRequiredMixin, UpdateView):
+    model = PropertyManager
+    form_class = PropertyManagerForm
+    template_name = 'registration/property_manager_details.html'
+    success_url = reverse_lazy('core:property_manager_dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_object(self):
+        return self.request.user.propertymanager
 
 @login_required
 def dashboard(request):

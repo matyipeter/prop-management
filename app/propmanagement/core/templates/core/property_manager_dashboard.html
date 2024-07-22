@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container mx-auto mt-10">
         <div class="bg-white shadow-md rounded-lg p-6">
-            <h2 class="text-3xl font-bold mb-4">Welcome, {{ request.user.username }}</h2>
+            <h2 class="text-3xl font-bold mb-4">Welcome, {{ request.user.last_name }}</h2>
             <div class="mb-4">
                 <a href="{% url 'core:add_property' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add New Property</a>
             </div>

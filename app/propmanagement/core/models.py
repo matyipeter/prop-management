@@ -25,6 +25,7 @@ class Tenant(models.Model):
 class PropertyManager(models.Model):
     user = models.OneToOneField(User,verbose_name='user' ,on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20, blank=True)
+    date_of_birth = models.DateField(default="2000-01-01", blank=False)
 
     def __str__(self):
         return self.user.username
@@ -36,7 +37,7 @@ class PropertyManager(models.Model):
 
 class Property(models.Model):
     manager = models.ForeignKey(PropertyManager, on_delete=models.CASCADE, related_name='properties')
-    tenant = models.ManyToManyField(Tenant, related_name='properties', blank=True, null=True)
+    tenant = models.ManyToManyField(Tenant, related_name='properties', blank=True)
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
